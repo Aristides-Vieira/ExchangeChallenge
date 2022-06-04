@@ -2,6 +2,7 @@ package com.exchange.challenge.controllers;
 
 import com.exchange.challenge.services.AllRatesService;
 import com.exchange.challenge.services.ConversionServices;
+import com.exchange.challenge.services.Request;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,12 +16,27 @@ import java.util.Map;
 public class ExchangeController {
 
 
-    private final ExchangeAPI ex = new ExchangeAPI();
+    private final Request request = new Request();
     private final AllRatesService allRatesService = new AllRatesService();
     private final ConversionServices conversionServices = new ConversionServices();
 
     @RequestMapping("/rates")
     public String getRates(@RequestParam(value = "base", defaultValue = "EUR") String baseCurrency) {
+
+        String json;
+        try {
+            Map<String, Long> ratesMap = allRatesService.getRates(baseCurrency);
+            json = new ObjectMapper().writeValueAsString(ratesMap);
+        } catch (IOException | URISyntaxException | InterruptedException exception) {
+            return exception.getMessage();
+        }
+
+
+        return json;
+    }
+
+    @RequestMapping("/rateslist")
+    public String getRatesDTO(@RequestParam(value = "base", defaultValue = "EUR") String baseCurrency) {
 
         String json;
         try {
@@ -44,13 +60,11 @@ public class ExchangeController {
             if (!amount.equals("0")) {
                 System.out.println(amount);
                 Map<String, Double> conversionMap = conversionServices.getRates(baseCurrency, currencies, amount);
-                String json = new ObjectMapper().writeValueAsString(conversionMap);
-                return json;
+                return new ObjectMapper().writeValueAsString(conversionMap);
             } else {
                 System.out.println(amount);
                 Map<String, Double> ratesMap = conversionServices.getRates(baseCurrency, currencies, amount);
-                String json = new ObjectMapper().writeValueAsString(ratesMap);
-                return json;
+                return new ObjectMapper().writeValueAsString(ratesMap);
             }
 
         } catch (IOException | URISyntaxException | InterruptedException exception) {

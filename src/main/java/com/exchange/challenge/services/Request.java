@@ -1,6 +1,7 @@
-package com.exchange.challenge.controllers;
+package com.exchange.challenge.services;
 import org.apache.http.client.utils.URIBuilder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -9,19 +10,16 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 
-
-@Component
-public class ExchangeAPI {
+@Service
+public class Request {
 
     private final String url = "https://api.exchangerate.host/latest";
-    private final String badURl = "://api.exchangerate.host/latest";
-
     public HttpResponse<String> getAllRates(String baseCurr) throws URISyntaxException, IOException, InterruptedException {
 
         HttpResponse<String> response = null;
 
             HttpClient client = HttpClient.newHttpClient();
-            URIBuilder uriBuilder = new URIBuilder(badURl);
+            URIBuilder uriBuilder = new URIBuilder(url);
             uriBuilder
                     .addParameter("base", baseCurr.toUpperCase())
                     .build();

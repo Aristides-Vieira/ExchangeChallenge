@@ -1,6 +1,6 @@
 package com.exchange.challenge.services;
 
-import com.exchange.challenge.controllers.ExchangeAPI;
+import com.exchange.challenge.dtos.AllRatesDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import java.util.Map;
 @Service
 public class AllRatesService {
 
-    private final ExchangeAPI pubApi = new ExchangeAPI();
+    private final Request pubApi = new Request();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
@@ -29,9 +29,15 @@ public class AllRatesService {
         Object ratesObj = map.get("rates");
         JsonNode ratesNode = objectMapper.valueToTree(ratesObj);
         System.out.println(ratesNode);
-        Map<String, Long> rates = objectMapper.readValue(ratesNode.toString(), new TypeReference<Map<String, Long>>() {});
 
-        return  rates;
+        return objectMapper.readValue(ratesNode.toString(), new TypeReference<Map<String, Long>>() {});
+    }
+
+    public Map<String, Long> getRatesDTO(String baseCurr) throws IOException, URISyntaxException, InterruptedException {
+        AllRatesDTO allRatesDTO = new AllRatesDTO(pubApi.getAllRates(baseCurr));
+        Map<String, Object> rates = allRatesDTO.getResponseMap();
+
+        return onlyRates(rates);
     }
 
 }
