@@ -1,6 +1,6 @@
-package com.example.exchange.challenge.services;
+package com.exchange.challenge.services;
 
-import com.example.exchange.challenge.controllers.ExchangeAPI;
+import com.exchange.challenge.controllers.ExchangeAPI;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,9 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
 
 public class ConversionServices {
 

@@ -1,4 +1,4 @@
-package com.example.exchange.challenge.model;
+package com.exchange.challenge.model;
 
 import java.util.Map;
 

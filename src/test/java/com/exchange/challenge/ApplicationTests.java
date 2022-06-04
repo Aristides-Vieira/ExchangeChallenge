@@ -1,4 +1,4 @@
-package com.example.exchange.challenge;
+package com.exchange.challenge;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

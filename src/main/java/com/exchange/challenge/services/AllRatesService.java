@@ -1,6 +1,6 @@
-package com.example.exchange.challenge.services;
+package com.exchange.challenge.services;
 
-import com.example.exchange.challenge.controllers.ExchangeAPI;
+import com.exchange.challenge.controllers.ExchangeAPI;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

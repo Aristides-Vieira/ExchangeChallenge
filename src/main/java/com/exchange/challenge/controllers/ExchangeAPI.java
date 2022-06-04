@@ -1,4 +1,4 @@
-package com.example.exchange.challenge.controllers;
+package com.exchange.challenge.controllers;
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
@@ -14,23 +14,25 @@ import java.net.http.HttpResponse;
 public class ExchangeAPI {
 
     private final String url = "https://api.exchangerate.host/latest";
+    private final String badURl = "://api.exchangerate.host/latest";
 
+    public HttpResponse<String> getAllRates(String baseCurr) throws URISyntaxException, IOException, InterruptedException {
 
-    public HttpResponse<String> getAllRates(String baseCurr) throws IOException, InterruptedException, URISyntaxException {
+        HttpResponse<String> response = null;
 
+            HttpClient client = HttpClient.newHttpClient();
+            URIBuilder uriBuilder = new URIBuilder(badURl);
+            uriBuilder
+                    .addParameter("base", baseCurr.toUpperCase())
+                    .build();
+            URI uri = uriBuilder.build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(uri)
+                    .header("accept", "application/json")
+                    .build();
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        HttpClient client = HttpClient.newHttpClient();
-        URIBuilder uriBuilder = new URIBuilder(url);
-        uriBuilder
-                .addParameter("base",baseCurr.toUpperCase())
-                .build();
-        URI uri = uriBuilder.build();
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(uri)
-                .header("accept","application/json")
-                .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         return response;
 
