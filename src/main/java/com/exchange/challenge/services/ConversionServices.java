@@ -18,13 +18,13 @@ public class ConversionServices {
         try {
             Double amount = Double.parseDouble(amountStr);
             if(amount!= 0 ) {
-                return new JSONConverter().convert(convertAmount(listRatesDTO.getRatesList(), amount));
+                return listRatesDTO.jsonConverter(convertAmount(listRatesDTO.getRatesList(), amount));
             } else {
-                return new JSONConverter().convert(listRatesDTO.getRatesList());
+                return listRatesDTO.jsonConverter(listRatesDTO.getRatesList());
             }
 
         } catch (NumberFormatException exception) {
-            return new JSONConverter().convert(listRatesDTO.getRatesList());
+            return listRatesDTO.jsonConverter(listRatesDTO.getRatesList());
         }
     }
 

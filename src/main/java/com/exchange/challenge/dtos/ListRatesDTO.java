@@ -1,5 +1,6 @@
 package com.exchange.challenge.dtos;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +37,9 @@ public class ListRatesDTO {
         ratesList = objectMapper.readValue(ratesNode.toString(), new TypeReference<Map<String, Double>>() {});
     }
 
+    public String jsonConverter(Map<String, Double> map) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(map);
+    }
 
     public Map<String, Double> getRatesList() {
         return ratesList;

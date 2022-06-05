@@ -1,0 +1,22 @@
+How to run the program:
+
+
+Press run application or compile and execute the program.
+After successfully stated the application open any browser and navigate to 127.0.0.1:8080
+
+There are 2 endpoints for this application:
+127.0.0.1:8080/rates
+127.0.0.1:8080/conversion
+
+Rates: Returns all exchange rates for a specific currency. base= defines the base currency. Example: 127.0.0.1:8080/rates?base=USD
+returns all exchange rates for USD.
+
+Conversion: Returns a list of specified exchange rates and can also convert an amount to those currencies.
+Examples:
+
+127.0.0.1:8080/conversion?base=USD&symbols=EUR,CNY,BYN,GBP
+returns the exchange rate of USD to EUR, CNY, BYN, GBP
+127.0.0.1:8080/conversion?base=USD&symbols=EUR,CNY,BYN,GBP&amount500
+returns the conversion of 500 USD to EUR, CNY, BYN, GBP
+
+In case you would like to change the port please do so in application.properties

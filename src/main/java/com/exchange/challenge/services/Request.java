@@ -1,5 +1,10 @@
 package com.exchange.challenge.services;
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -11,15 +16,19 @@ import java.net.http.HttpResponse;
 
 
 @Service
+@Component
+@EnableConfigurationProperties
 public class Request {
 
-    private final String url = "https://api.exchangerate.host/latest";
+    private final String getUrl = "https://api.exchangerate.host/latest";
+    @Value("${api.url}")
+    private String apiUrl;
     public HttpResponse<String> getAllRates(String baseCurr) throws URISyntaxException, IOException, InterruptedException {
 
         HttpResponse<String> response = null;
 
             HttpClient client = HttpClient.newHttpClient();
-            URIBuilder uriBuilder = new URIBuilder(url);
+            URIBuilder uriBuilder = new URIBuilder(apiUrl);
             uriBuilder
                     .addParameter("base", baseCurr.toUpperCase())
                     .build();
@@ -38,7 +47,7 @@ public class Request {
 
     public HttpResponse<String> conversionRate(String baseCurr, String currencies) throws URISyntaxException, IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        URIBuilder uriBuilder = new URIBuilder(url);
+        URIBuilder uriBuilder = new URIBuilder(getUrl);
         uriBuilder
                 .addParameter("base",baseCurr.toUpperCase())
                 .addParameter("symbols", currencies.toUpperCase())
@@ -49,10 +58,8 @@ public class Request {
                 .uri(uri)
                 .header("accept","application/json")
                 .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        System.out.println(request);
-        return response;
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
 
     }
 }

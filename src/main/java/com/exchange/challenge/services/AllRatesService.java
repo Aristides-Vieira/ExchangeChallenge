@@ -16,7 +16,7 @@ public class AllRatesService {
         Request request = new Request();
         AllRatesDTO allRatesDTO = new AllRatesDTO(request.getAllRates(baseCurr));
 
-        return new JSONConverter().convert(allRatesDTO.getRates());
+        return allRatesDTO.jsonConverter(allRatesDTO.getRates());
     }
 
 }
