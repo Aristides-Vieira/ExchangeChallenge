@@ -17,7 +17,11 @@ public class ConversionServices {
 
         try {
             Double amount = Double.parseDouble(amountStr);
-            return new JSONConverter().convert(convertAmount(listRatesDTO.getRatesList(), amount));
+            if(amount!= 0 ) {
+                return new JSONConverter().convert(convertAmount(listRatesDTO.getRatesList(), amount));
+            } else {
+                return new JSONConverter().convert(listRatesDTO.getRatesList());
+            }
 
         } catch (NumberFormatException exception) {
             return new JSONConverter().convert(listRatesDTO.getRatesList());
