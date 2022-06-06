@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AllRatesDTO {
+
 
     private Map<String,Double> rates;
     private final ObjectMapper objectMapper;

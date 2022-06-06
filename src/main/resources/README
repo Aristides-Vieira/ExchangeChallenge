@@ -20,3 +20,5 @@ returns the exchange rate of USD to EUR, CNY, BYN, GBP
 returns the conversion of 500 USD to EUR, CNY, BYN, GBP
 
 In case you would like to change the port please do so in application.properties
+
+Also SWAGGER available at: 127.0.0.1:8080/swagger-ui/index.html

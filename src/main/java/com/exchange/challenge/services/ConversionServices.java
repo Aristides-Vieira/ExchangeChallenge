@@ -11,8 +11,8 @@ public class ConversionServices {
 
 
 
-    public String getList(String baseCurr, String currencies, String amountStr) throws IOException, URISyntaxException, InterruptedException{
-        Request request = new Request();
+    public String getList(String url, String baseCurr, String currencies, String amountStr) throws IOException, URISyntaxException, InterruptedException{
+        Request request = new Request(url);
         ListRatesDTO listRatesDTO = new ListRatesDTO(request.conversionRate(baseCurr, currencies));
 
         try {

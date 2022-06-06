@@ -3,10 +3,15 @@ package com.exchange.challenge.controllers;
 import com.exchange.challenge.services.AllRatesService;
 import com.exchange.challenge.services.ConversionServices;
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,14 +21,21 @@ import java.net.URISyntaxException;
 
 
 @RestController
+@EnableCaching
 public class ExchangeController {
+
+
+    @Value("${api.url}")
+    private String url;
 
 
     @ApiOperation(value = "Returns all exchange rates for a currency. base= defines the base currency. Example: base=USD")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Status code OK, Returns all exchange rates"),
             @ApiResponse(code = 500, message = "An exception has occurred"),
+
     })
+    @Cacheable(value = "response")
     @RequestMapping(value = "/rates", method = RequestMethod.GET, produces="application/json")
     public ResponseEntity<String> getAllRates(@RequestParam(value = "base", defaultValue = "EUR") String baseCurrency) {
         String response;
@@ -31,15 +43,12 @@ public class ExchangeController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         try {
-            response = new AllRatesService().getRatesDTO(baseCurrency);
+            response = new AllRatesService().getRatesDTO(url, baseCurrency);
 
         } catch (IOException | URISyntaxException | InterruptedException exception) {
             return new ResponseEntity<String>(exception.getMessage(), headers, HttpStatus.OK);
         }
 
-
-
-   
         return new ResponseEntity<String>(response, headers, HttpStatus.OK);
     }
 
@@ -52,6 +61,7 @@ public class ExchangeController {
             @ApiResponse(code = 500, message = "An exception has occurred"),
 
     })
+    @Cacheable(value = "ratesList")
     @RequestMapping(value = "/conversion", method = RequestMethod.GET, produces="application/json")
     public ResponseEntity<String> conversionRate(@RequestParam(value = "base", defaultValue = "EUR") String baseCurrency,
                                                  @RequestParam(value = "symbols", defaultValue = "USD") String currencies,
@@ -63,7 +73,7 @@ public class ExchangeController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         try {
-            response = new ConversionServices().getList(baseCurrency, currencies, amount);
+            response = new ConversionServices().getList(url, baseCurrency, currencies, amount);
         } catch (IOException | URISyntaxException | InterruptedException exception) {
             return new ResponseEntity<String>(exception.getMessage(), headers, HttpStatus.OK);
         }
